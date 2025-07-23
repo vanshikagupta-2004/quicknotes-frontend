@@ -1,39 +1,55 @@
-import { useState } from 'react';
-import { Form, Button, Card, Container, Alert, Row, Col } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { useState } from "react";
+import {
+  Form,
+  Button,
+  Card,
+  Container,
+  Alert,
+  Row,
+  Col,
+} from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 const Signup = () => {
   const [showSuccess, setShowSuccess] = useState(false);
-  const [showError, setShowError] = useState('');
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [showError, setShowError] = useState("");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setShowSuccess(false);
-    setShowError('');
+    setShowError("");
 
     try {
-      const response = await fetch('http://localhost:5000/api/auth/signup', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, password })
-      });
+      const response = await fetch(
+        "https://quicknotes-backend-cy6e.onrender.com/api/auth/signup",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name, email, password }),
+        }
+      );
+      // const response = await fetch('http://localhost:5000/api/auth/signup', {
+      //   method: 'POST',
+      //   headers: { 'Content-Type': 'application/json' },
+      //   body: JSON.stringify({ name, email, password })
+      // });
 
       const data = await response.json();
 
       if (response.ok) {
         setShowSuccess(true);
-        setName('');
-        setEmail('');
-        setPassword('');
+        setName("");
+        setEmail("");
+        setPassword("");
       } else {
-        setShowError(data.error || 'Signup failed');
+        setShowError(data.error || "Signup failed");
       }
     } catch (err) {
       console.error(err);
-      setShowError('Server error. Please try again.');
+      setShowError("Server error. Please try again.");
     }
   };
 

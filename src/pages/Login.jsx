@@ -1,13 +1,21 @@
-import { useState } from 'react';
-import { Form, Button, Card, Container, Row, Col, Alert } from 'react-bootstrap';
-import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext';
+import { useState } from "react";
+import {
+  Form,
+  Button,
+  Card,
+  Container,
+  Row,
+  Col,
+  Alert,
+} from "react-bootstrap";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
 
 const Login = () => {
   const [showSuccess, setShowSuccess] = useState(false);
-  const [showError, setShowError] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [showError, setShowError] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const { login } = useAuth(); // ✅ Update login state
   const navigate = useNavigate(); // ✅ Redirect to dashboard
@@ -15,28 +23,31 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setShowSuccess(false);
-    setShowError('');
+    setShowError("");
 
     try {
-      const response = await fetch('http://localhost:5000/api/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password })
-      });
+      const response = await fetch(
+        "https://quicknotes-backend-cy6e.onrender.com/api/auth/login",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password }),
+        }
+      );
 
       const data = await response.json();
 
       if (response.ok) {
-        localStorage.setItem('token', data.token); // 🧠 Save JWT token
+        localStorage.setItem("token", data.token); // 🧠 Save JWT token
         setShowSuccess(true);
         login(); // 🧠 Update AuthContext
-        navigate('/dashboard'); // 🚀 Redirect user
+        navigate("/dashboard"); // 🚀 Redirect user
       } else {
-        setShowError(data.error || 'Invalid credentials');
+        setShowError(data.error || "Invalid credentials");
       }
     } catch (err) {
       console.error(err);
-      setShowError('Server error. Please try again.');
+      setShowError("Server error. Please try again.");
     }
   };
 
