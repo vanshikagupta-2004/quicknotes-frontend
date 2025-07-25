@@ -23,8 +23,9 @@ const Signup = () => {
     setShowError("");
 
     try {
-      const response = await fetch(
-        "https://quicknotes-backend-cy6e.onrender.com/api/auth/signup",
+       let url = "http://localhost:5000/api/auth/signup";
+      let prod_url = "https://quicknotes-backend-cy6e.onrender.com/api/auth/login";
+      const response = await fetch(prod_url,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
